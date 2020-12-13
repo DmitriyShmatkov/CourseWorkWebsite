@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Вход в аккаунт</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{~/}"><img style="width: auto; height: 50px" src="https://i.pinimg.com/originals/39/f8/30/39f83008cb63c447afc04b8d3816c023.png" alt="Фриланс услуги"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{~/}">Домой</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{~/orders}">Доска объявлений</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{~/workers}">Работники</a>
+                </li>
+                <li th:if="${!#request.isUserInRole('ROLE_USER') && !#request.isUserInRole('ROLE_WORKER')}" class="nav-item">
+                    <a class="nav-link" th:href="@{~/login}">Войти в аккаунт</a>
+                </li>
+                <li th:if="${#request.isUserInRole('ROLE_USER') || #request.isUserInRole('ROLE_WORKER')}" class="nav-item">
+                    <a class="nav-link" th:href="@{~/logout}">Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<div style="margin: auto; width: 25%; text-align: center">
+    <h2>Войти в аккаунт</h2><br>
+    <form method="post" th:action="@{~/login}" th:object="${user}">
+        <div class="mb-3">
+            <input th:field="*{username}" type="text" class="form-control" id="formGroupExampleInput" placeholder="Логин" autofocus>
+        </div>
+        <div class="mb-3">
+            <input th:field="*{password}" type="password" class="form-control" id="formGroupExampleInput2" placeholder="Пароль">
+        </div>
+        <div style="margin-bottom: 15px;" th:if="${param.error}" class="text-danger">
+            Неправильный логин или пароль
+        </div>
+        <input style="width: 100px" class="btn btn-primary" type="submit" value="Войти">
+    </form>
+    <br>
+    <label style="font-size: 14px; color: grey; margin-bottom: 10px;">Нет аккаунта?</label><br>
+    <a class="btn btn-outline-primary" th:href="@{~/registration}" role="button">Зарегистрироваться</a>
+</div>
+</body>
+</html>

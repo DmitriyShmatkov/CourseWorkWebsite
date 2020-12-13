@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Регистрация</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{~/}"><img style="width: auto; height: 50px" src="https://i.pinimg.com/originals/39/f8/30/39f83008cb63c447afc04b8d3816c023.png" alt="Фриланс услуги"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{~/}">Домой</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{~/orders}">Доска объявлений</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{~/workers}">Работники</a>
+                </li>
+                <li th:if="${!#request.isUserInRole('ROLE_USER') && !#request.isUserInRole('ROLE_WORKER')}" class="nav-item">
+                    <a class="nav-link" th:href="@{~/login}">Войти в аккаунт</a>
+                </li>
+                <li th:if="${#request.isUserInRole('ROLE_USER') || #request.isUserInRole('ROLE_WORKER')}" class="nav-item">
+                    <a class="nav-link" th:href="@{~/myaccount}">Мой профиль</a>
+                </li>
+                <li th:if="${#request.isUserInRole('ROLE_USER') || #request.isUserInRole('ROLE_WORKER')}" class="nav-item">
+                    <a class="nav-link" th:href="@{~/logout}">Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div style="padding: 25px;">
+    <h2 style="margin-bottom: 20px;">Регистрация</h2><br>
+    <form method="post" th:action="@{~/registration}" th:object="${user}">
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput1" style="margin-bottom: 10px; font-size: 20px;">Имя</label>
+            <input th:field="*{firstName}" type="text" class="form-control" id="formGroupExampleInput1" placeholder="Имя">
+            <small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+        </div>
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput2" style="margin-bottom: 10px; font-size: 20px;">Фамилия</label>
+            <input th:field="*{secondName}" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Фамилия">
+            <small class="text-danger" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></small>
+        </div>
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput3" style="margin-bottom: 10px; font-size: 20px;">Эл. почта</label>
+            <input th:field="*{email}" type="text" class="form-control" id="formGroupExampleInput3" placeholder="Электронная почта">
+            <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+        </div>
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput4" style="margin-bottom: 10px; font-size: 20px;">Номер телефона</label>
+            <input th:field="*{phoneNumber}" type="text" class="form-control" id="formGroupExampleInput4" placeholder="(XXX)-XXX-XX-XX">
+            <small class="text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{phoneNumber}"></small>
+        </div>
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput5" style="margin-bottom: 10px; font-size: 20px;">Логин</label>
+            <input th:field="*{login}" type="text" class="form-control" id="formGroupExampleInput5" placeholder="Логин">
+            <small class="text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+        </div>
+        <div style="width: 400px;" class="mb-3">
+            <label for="formGroupExampleInput6" style="margin-bottom: 10px; font-size: 20px;">Пароль</label>
+            <input th:field="*{password}" type="password" class="form-control" id="formGroupExampleInput6" placeholder="Пароль">
+            <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+        </div>
+        <div th:if="${param.error}" class="mb-3">
+            <span class="text-danger">Данный логин уже занят</span>
+        </div>
+        <input style="width: 200px; margin-top: 15px; margin-right: 10px;" class="btn btn-primary" type="submit" value="Зарегистрироваться">
+        <a style="margin-top: 15px;" class="btn btn-outline-primary" th:href="@{~/login}" role="button">Отмена</a>
+    </form>
+</div>
+</body>
+</html>
